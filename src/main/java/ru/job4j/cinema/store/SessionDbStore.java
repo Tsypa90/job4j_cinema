@@ -57,4 +57,53 @@ public class SessionDbStore {
         }
         return null;
     }
+
+    public List<Integer> findRows(int id) {
+        List<Integer> rows = new ArrayList<>();
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps = cn.prepareStatement("select distinct row from cinema where session_id = ? order by row asc")
+        ) {
+            ps.setInt(1, id);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    rows.add(rs.getInt("row"));
+                }
+            }
+        } catch (Exception e) {
+            LOG.error(e.getMessage(), e);
+        }
+        return rows;
+    }
+
+    public List<Integer> findSeats(int id, int row) {
+        List<Integer> seats = new ArrayList<>();
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps =
+                     cn.prepareStatement("select distinct seat from cinema where row = ? and session_id = ? order by seat asc")
+        ) {
+            ps.setInt(1, row);
+            ps.setInt(2, id);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    seats.add(rs.getInt("seat"));
+                }
+            }
+        } catch (Exception e) {
+            LOG.error(e.getMessage(), e);
+        }
+        return seats;
+    }
+
+    public void deleteSeat(int id, int row, int seat) {
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps = cn.prepareStatement("delete from cinema where session_id = ? and row = ? and seat = ?")
+        ) {
+            ps.setInt(1, id);
+            ps.setInt(2, row);
+            ps.setInt(3, seat);
+            ps.execute();
+        } catch (Exception e) {
+            LOG.error(e.getMessage(), e);
+        }
+    }
 }

@@ -43,7 +43,7 @@
     <div class="row pt-3">
         <div class="card" style="width: 100%">
             <div class="card-header">
-                Купить билет
+                Купить билет. Выберите место.
             </div>
             <div class="card-body">
                 <form th:action="@{/buyTicket}" method="POST">
@@ -51,21 +51,9 @@
                         Такое место уже куплено!
                     </div>
                     <div class="form-group">
-                        <label for="sessionId">Фильм</label>
-                        <select class="form-control" id="sessionId" name="sessionId">
-                            <option th:each="film : ${films}" th:value="${film.id}" th:text="${film.name}">
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="row">Ряд</label>
-                        <select class="form-control" id="row" name="row">
-                            <option th:each="row : ${rows}" th:value="${row.intValue()}" th:text="${row}"></option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="cell">Место</label>
-                        <select class="form-control" id="cell" name="cell">
-                            <option th:each="seat : ${seats}" th:value="${seat.intValue()}" th:text="${seat}"></option>
+                        <label for="seat">Место</label>
+                        <select class="form-control" id="seat" name="seat">
+                            <option th:each="seat : ${seats}" th:value="${seat}" th:text="${seat}">
                         </select>
                     </div>
                     <button type="submit" class="btn btn-primary">Купить</button>

@@ -7,21 +7,14 @@ import ru.job4j.cinema.model.Ticket;
 import ru.job4j.cinema.store.SessionDbStore;
 
 import java.util.*;
-import java.util.stream.IntStream;
 
 @Service
 @ThreadSafe
 public class SessionService {
     private final SessionDbStore store;
 
-    private Map<Integer, List<Integer>> seats = new HashMap<>();
-
     public SessionService(SessionDbStore store) {
         this.store = store;
-        IntStream.range(1, 4).forEach(i -> {
-            seats.put(i, new ArrayList<>());
-            IntStream.range(1, 4).forEach(y -> seats.get(i).add(y));
-        });
     }
 
     public List<Film> findAll() {
@@ -32,11 +25,15 @@ public class SessionService {
         return store.findSessionById(id);
     }
 
-    public Collection<Integer> getRows() {
-        return new ArrayList<>(seats.keySet());
+    public Collection<Integer> getCinemaRows(int id) {
+        return store.findRows(id);
+    }
+
+    public List<Integer> getCinemaSeats(int id, int row) {
+        return store.findSeats(id, row);
     }
 
     public void deleteSeat(Ticket ticket) {
-        findSessionById(ticket.getSessionId()).getSeats().remove(ticket.getCell());
+        store.deleteSeat(ticket.getSessionId(), ticket.getRow(), ticket.getCell());
     }
 }

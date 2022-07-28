@@ -20,14 +20,14 @@
 <body>
 <div class="container">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="/selectFilm">Cinema</a>
+        <a class="navbar-brand" href="#">Cinema</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
-                <a class="nav-item nav-link" th:href="@{/selectFilm}">Купить билет</a>
-                <a class="nav-item nav-link active" href="/myTickets">Мои билеты<span class="sr-only">(current)</span></a>
+                <a class="nav-item nav-link active" href="#">Купить билет<span class="sr-only">(current)</span></a>
+                <a class="nav-item nav-link" th:if="${user.name != 'guest'}" th:href="@{/myTickets}">Мои билеты</a>
                 <a class="nav-item nav-link" th:if="${user.name == 'guest'}" th:href="@{/registration}">Регистрация</a>
                 <a class="nav-item nav-link" th:if="${user.name == 'guest'}" th:href="@{/loginPage}">
                     <span th:text="${user.name}"></span>
@@ -40,23 +40,23 @@
             </div>
         </div>
     </nav>
-    <div class="row">
-        <table class="table">
-            <thead>
-            <tr>
-                <th scope="col">Фильм</th>
-                <th scope="col">Ряд</th>
-                <th scope="col">Место</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="ticket: ${myTickets}">
-                <td th:text="${film.findSessionById(ticket.sessionId).getName()}"></td>
-                <td th:text="${ticket.row}"></td>
-                <td th:text="${ticket.cell}"></td>
-            </tr>
-            </tbody>
-        </table>
+    <div class="row pt-3">
+        <div class="card" style="width: 100%">
+            <div class="card-header">
+                Купить билет. Выберите ряд.
+            </div>
+            <div class="card-body">
+                <form th:action="@{/selectRow}" method="POST">
+                    <div class="form-group">
+                        <label for="row">Ряд</label>
+                        <select class="form-control" id="row" name="row">
+                            <option th:each="row : ${rows}" th:value="${row}" th:text="${row}">
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Дальше</button>
+                </form>
+            </div>
+        </div>
     </div>
 </div>
 </body>
