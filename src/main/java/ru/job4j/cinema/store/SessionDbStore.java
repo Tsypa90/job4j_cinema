@@ -61,12 +61,12 @@ public class SessionDbStore {
     public List<Integer> findRows(int id) {
         List<Integer> rows = new ArrayList<>();
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps = cn.prepareStatement("select distinct row from cinema where session_id = ? order by row asc")
+             PreparedStatement ps = cn.prepareStatement("select distinct row from cinema where session_id = ? order by line asc")
         ) {
             ps.setInt(1, id);
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
-                    rows.add(rs.getInt("row"));
+                    rows.add(rs.getInt("line"));
                 }
             }
         } catch (Exception e) {
@@ -75,13 +75,13 @@ public class SessionDbStore {
         return rows;
     }
 
-    public List<Integer> findSeats(int id, int row) {
+    public List<Integer> findSeats(int id, int line) {
         List<Integer> seats = new ArrayList<>();
         try (Connection cn = pool.getConnection();
              PreparedStatement ps =
-                     cn.prepareStatement("select distinct seat from cinema where row = ? and session_id = ? order by seat asc")
+                     cn.prepareStatement("select distinct seat from cinema where line = ? and session_id = ? order by seat asc")
         ) {
-            ps.setInt(1, row);
+            ps.setInt(1, line);
             ps.setInt(2, id);
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
@@ -94,12 +94,12 @@ public class SessionDbStore {
         return seats;
     }
 
-    public void deleteSeat(int id, int row, int seat) {
+    public void deleteSeat(int id, int line, int seat) {
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps = cn.prepareStatement("delete from cinema where session_id = ? and row = ? and seat = ?")
+             PreparedStatement ps = cn.prepareStatement("delete from cinema where session_id = ? and line = ? and seat = ?")
         ) {
             ps.setInt(1, id);
-            ps.setInt(2, row);
+            ps.setInt(2, line);
             ps.setInt(3, seat);
             ps.execute();
         } catch (Exception e) {
