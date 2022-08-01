@@ -19,10 +19,15 @@ CREATE TABLE if not exists ticket (
 );
 
 create table if not exists cinema (
-	session_id int not null references sessions(id),
+	session_id int not null references films(id),
 	row int not null,
 	seat int not null
 );
+
+insert into films (name) values ('Мстители');
+insert into films (name) values ('Кот в сапогах');
+insert into films (name) values ('Начало');
+
 
 insert into cinema (session_id, row, seat) values (1, 1, 1);
 insert into cinema (session_id, row, seat) values (1, 1, 2);
