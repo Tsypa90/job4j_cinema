@@ -1,5 +1,6 @@
 package ru.job4j.cinema.service;
 
+import lombok.RequiredArgsConstructor;
 import net.jcip.annotations.ThreadSafe;
 import org.springframework.stereotype.Service;
 import ru.job4j.cinema.model.Film;
@@ -10,12 +11,9 @@ import java.util.*;
 
 @Service
 @ThreadSafe
+@RequiredArgsConstructor
 public class SessionService {
     private final SessionDbStore store;
-
-    public SessionService(SessionDbStore store) {
-        this.store = store;
-    }
 
     public List<Film> findAll() {
         return store.findAll();

@@ -1,5 +1,7 @@
 package ru.job4j.cinema.store;
 
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import net.jcip.annotations.ThreadSafe;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.stereotype.Repository;
@@ -17,13 +19,10 @@ import java.util.List;
 
 @Repository
 @ThreadSafe
+@RequiredArgsConstructor
 public class SessionDbStore {
     private static final Logger LOG = LogManager.getLogger(SessionDbStore.class.getName());
     private final BasicDataSource pool;
-
-    public SessionDbStore(BasicDataSource pool) {
-        this.pool = pool;
-    }
 
     public List<Film> findAll() {
         List<Film> films = new ArrayList<>();

@@ -1,5 +1,7 @@
 package ru.job4j.cinema.store;
 
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -14,13 +16,10 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
+@RequiredArgsConstructor
 public class TicketDbStore {
     private static final Logger LOG = LogManager.getLogger(SessionDbStore.class.getName());
     private final BasicDataSource pool;
-
-    public TicketDbStore(BasicDataSource pool) {
-        this.pool = pool;
-    }
 
     public Optional<Ticket> buyTicket(Ticket ticket) {
         try (Connection cn = pool.getConnection();

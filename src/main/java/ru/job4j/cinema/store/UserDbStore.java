@@ -1,5 +1,6 @@
 package ru.job4j.cinema.store;
 
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Repository;
@@ -11,13 +12,10 @@ import java.sql.ResultSet;
 import java.util.Optional;
 
 @Repository
+@RequiredArgsConstructor
 public class UserDbStore {
     private static final Logger LOG = Logger.getLogger(UserDbStore.class.getName());
     private final BasicDataSource pool;
-
-    public UserDbStore(BasicDataSource pool) {
-        this.pool = pool;
-    }
 
     public Optional<User> addUser(User user) {
         try (Connection cn = pool.getConnection();

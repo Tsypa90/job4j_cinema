@@ -1,5 +1,6 @@
 package ru.job4j.cinema.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,12 +15,9 @@ import javax.servlet.http.HttpSession;
 import java.util.Optional;
 
 @Controller
+@RequiredArgsConstructor
 public class UserController {
     private final UserService service;
-
-    public UserController(UserService service) {
-        this.service = service;
-    }
 
     @GetMapping("/registration")
     public String registration(Model model, HttpSession session,

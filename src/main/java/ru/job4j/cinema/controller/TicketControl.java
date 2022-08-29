@@ -1,5 +1,6 @@
 package ru.job4j.cinema.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,14 +15,10 @@ import javax.servlet.http.HttpSession;
 import java.util.Optional;
 
 @Controller
+@RequiredArgsConstructor
 public class TicketControl {
     private final TicketService service;
     private final SessionService sessionService;
-
-    public TicketControl(TicketService service, SessionService sessionService) {
-        this.service = service;
-        this.sessionService = sessionService;
-    }
 
     @GetMapping("/selectFilm")
     public String index(Model model, HttpSession session) {
